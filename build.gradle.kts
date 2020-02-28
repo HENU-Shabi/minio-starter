@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     id("org.springframework.boot") version "2.2.4.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
@@ -11,6 +13,12 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
+
+val jar: Jar by tasks
+val bootJar: BootJar by tasks
+
+bootJar.enabled = false
+jar.enabled = true
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))

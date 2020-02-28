@@ -45,7 +45,7 @@ class MinIOClient(private val client : MinioClient, private val props : MinIOPro
         }
     }
 
-    operator fun get(id : String) : Any{
+    operator fun get(id : String) : Any {
         if(!this.objectExists(id)) return Unit
         return ObjectInputStream(client.getObject(props.bucket,id)).readObject()
     }
