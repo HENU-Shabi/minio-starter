@@ -1,6 +1,8 @@
 package xyz.luchengeng.minio.starter.test
 
+import io.minio.errors.ErrorResponseException
 import org.junit.Test
+import org.junit.platform.commons.logging.Logger
 import org.junit.platform.commons.logging.LoggerFactory
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,7 +18,7 @@ import xyz.luchengeng.minio.starter.withHeader
 class MinIOStarterTest constructor() {
     @Autowired
     lateinit var client: MinIOClient
-    val logger = LoggerFactory.getLogger(MinIOStarterTest::class.java)
+    val logger: Logger = LoggerFactory.getLogger(MinIOStarterTest::class.java)
     @Test
     fun test() {
         client["test"] = Unit
@@ -33,5 +35,11 @@ class MinIOStarterTest constructor() {
         }
         assert(str == "test str")
         assert(str1 == "test str")
+        try {
+            client["should throw exception"]
+            assert(false)
+        } catch (ignored: ErrorResponseException) {
+
+        }
     }
 }
