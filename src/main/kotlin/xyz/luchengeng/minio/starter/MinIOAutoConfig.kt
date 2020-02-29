@@ -11,14 +11,25 @@ import org.springframework.context.annotation.Configuration
 @ConditionalOnProperty(prefix = "min.io",name = ["host"])
 @EnableConfigurationProperties(MinIOProperties::class)
 class MinIOAutoConfig @Autowired constructor(val props : MinIOProperties){
+
     @Autowired
     private lateinit var rawClient: MinioClient
+
+    @Autowired
+    private lateinit var client: MinIOClient
+
     @Bean
-    fun rawClient() : MinioClient {
+    fun rawClient(): MinioClient {
         return MinioClient(props.host, props.accessKey, props.secretKey)
     }
+
     @Bean
-    fun client() : MinIOClient{
-        return MinIOClient(rawClient,props)
+    fun client(): MinIOClient {
+        return MinIOClient(rawClient, props)
+    }
+
+    @Bean
+    fun map(): MinIOMap {
+        return MinIOMap(client)
     }
 }

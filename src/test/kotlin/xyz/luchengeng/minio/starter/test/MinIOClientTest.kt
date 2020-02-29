@@ -14,11 +14,12 @@ import xyz.luchengeng.minio.starter.withHeader
 
 @SpringBootTest
 @RunWith(
-    SpringRunner::class)
-class MinIOStarterTest constructor() {
+    SpringRunner::class
+)
+class MinIOClientTest {
     @Autowired
     lateinit var client: MinIOClient
-    val logger: Logger = LoggerFactory.getLogger(MinIOStarterTest::class.java)
+    val logger: Logger = LoggerFactory.getLogger(MinIOClientTest::class.java)
     @Test
     fun test() {
         client["test"] = Unit
@@ -41,5 +42,19 @@ class MinIOStarterTest constructor() {
         } catch (ignored: ErrorResponseException) {
 
         }
+        client["test"] = Unit
+        client["pure"] = Unit
+    }
+
+    @Test
+    fun testLargeObj() {
+        client["large"] = ByteArray(64 * 1024 * 1024) {
+            127.toByte()
+        }
+        val (bytes, _, _) = client["large"]
+        (bytes as ByteArray).forEach {
+            assert(it == 127.toByte())
+        }
+        client["large"] = Unit
     }
 }

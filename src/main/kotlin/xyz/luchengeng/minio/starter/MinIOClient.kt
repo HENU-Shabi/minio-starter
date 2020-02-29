@@ -2,38 +2,37 @@ package xyz.luchengeng.minio.starter
 import io.minio.ErrorCode
 import io.minio.MinioClient
 import io.minio.errors.ErrorResponseException
+import io.minio.messages.Item
 import java.io.*
 
 class MinIOClient(private val client : MinioClient, private val props : MinIOProperties) {
-    val raw : MinioClient
+    private val raw: MinioClient
         get() = client
-    val bucket : String
+    private val bucket: String
         get() = props.bucket
-    operator fun set(id : String,obj : Any) {
+    val objectList: List<Item>
+        get() = raw.listObjects(bucket).map { it.get() }
+
+    operator fun set(id: String, obj: Any) {
         if (obj is Unit) {
-            client.removeObject(props.bucket, id)
+            if (this.objectExists(id)) client.removeObject(props.bucket, id)
             return
         }
         if (this.objectExists(id)) {
             client.removeObject(props.bucket, id)
         }
-        if (obj is MinIOObject) {
-            if (obj.contentType === null) {
-                client.putObject(props.bucket, id, serialize(obj), obj.headerMap)
-            } else if (obj.headerMap === null) {
-                client.putObject(props.bucket, id, serialize(obj), obj.contentType)
-            } else {
-                val stream = serialize(obj.obj)
-                client.putObject(
-                    props.bucket,
-                    id,
-                    stream,
-                    stream.available().toLong(),
-                    obj.headerMap,
-                    null,
-                    obj.contentType
+        if (obj is MinIOItem) {
+
+            val stream = serialize(obj.obj)
+            client.putObject(
+                props.bucket,
+                id,
+                stream,
+                stream.available().toLong(),
+                obj.headerMap,
+                null,
+                obj.contentType
                 )
-            }
         } else {
             val stream = serialize(obj)
             client.putObject(
@@ -68,7 +67,14 @@ class MinIOClient(private val client : MinioClient, private val props : MinIOPro
                 stat.contentType()
             )
         } catch (e: ErrorResponseException) {
-            throw e
+            if (e.errorResponse().errorCode().code() != ErrorCode.NO_SUCH_OBJECT.code()) {
+                throw e
+            }
+            Triple(
+                Unit,
+                mapOf(),
+                "application/octet-stream"
+            )
         }
     }
 }
