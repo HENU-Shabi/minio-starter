@@ -15,8 +15,6 @@ class MinIOAutoConfig @Autowired constructor(val props : MinIOProperties){
     @Autowired
     private lateinit var rawClient: MinioClient
 
-    @Autowired
-    private lateinit var client: MinIOClient
 
     @Bean
     fun rawClient(): MinioClient {
@@ -24,12 +22,7 @@ class MinIOAutoConfig @Autowired constructor(val props : MinIOProperties){
     }
 
     @Bean
-    fun client(): MinIOClient {
-        return MinIOClient(rawClient, props)
-    }
-
-    @Bean
     fun map(): MinIOMap {
-        return MinIOMap(client)
+        return MinIOMap(MinIOClient(rawClient, props))
     }
 }
