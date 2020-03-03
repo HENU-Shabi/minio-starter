@@ -10,25 +10,31 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.test.context.junit4.SpringRunner
-import xyz.luchengeng.minio.starter.MinIOClient
-import xyz.luchengeng.minio.starter.MinIOProperties
-import xyz.luchengeng.minio.starter.withContentType
-import xyz.luchengeng.minio.starter.withHeader
+import xyz.luchengeng.minio.starter.bean.MinIOClient
+import xyz.luchengeng.minio.starter.bean.withContentType
+import xyz.luchengeng.minio.starter.bean.withHeader
+import xyz.luchengeng.minio.starter.config.MinIOProperties
 
 @SpringBootTest
 @RunWith(
     SpringRunner::class
 )
-class MinIOClientTest {
+class ClientTest {
     @Autowired
     lateinit var client: MinIOClient
-    val logger: Logger = LoggerFactory.getLogger(MinIOClientTest::class.java)
+    val logger: Logger = LoggerFactory.getLogger(ClientTest::class.java)
 
     @TestConfiguration
     class MinIOClientConfig @Autowired constructor(val props: MinIOProperties) {
         @Bean
         fun client(): MinIOClient {
-            return MinIOClient(MinioClient(props.host, props.accessKey, props.secretKey), props)
+            return MinIOClient(
+                MinioClient(
+                    props.host,
+                    props.accessKey,
+                    props.secretKey
+                ), props
+            )
         }
     }
 

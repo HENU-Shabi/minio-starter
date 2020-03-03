@@ -1,4 +1,4 @@
-package xyz.luchengeng.minio.starter
+package xyz.luchengeng.minio.starter.bean
 
 import io.minio.ServerSideEncryption
 

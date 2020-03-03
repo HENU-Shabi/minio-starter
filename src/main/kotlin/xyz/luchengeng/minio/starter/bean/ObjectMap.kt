@@ -1,6 +1,6 @@
-package xyz.luchengeng.minio.starter
+package xyz.luchengeng.minio.starter.bean
 
-class MinIOMap constructor(private val client: MinIOClient) : MutableMap<String, Any> {
+class ObjectMap constructor(private val client: MinIOClient) : MutableMap<String, Any> {
     override val size: Int
         get() = client.objectList.size
     override val entries: MutableSet<MutableMap.MutableEntry<String, Any>>

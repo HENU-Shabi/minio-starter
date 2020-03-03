@@ -1,4 +1,4 @@
-package xyz.luchengeng.minio.starter
+package xyz.luchengeng.minio.starter.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

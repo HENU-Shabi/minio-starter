@@ -5,15 +5,15 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
-import xyz.luchengeng.minio.starter.MinIOMap
+import xyz.luchengeng.minio.starter.bean.ObjectMap
 
 @SpringBootTest
 @RunWith(
     SpringRunner::class
 )
-class MinIOMapTest {
+class ObjectMapTest {
     @Autowired
-    private lateinit var map: MinIOMap
+    private lateinit var map: ObjectMap
 
     @Test
     fun test() {

@@ -1,8 +1,9 @@
-package xyz.luchengeng.minio.starter
+package xyz.luchengeng.minio.starter.bean
 import io.minio.ErrorCode
 import io.minio.MinioClient
 import io.minio.errors.ErrorResponseException
 import io.minio.messages.Item
+import xyz.luchengeng.minio.starter.config.MinIOProperties
 import java.io.*
 
 class MinIOClient(private val client : MinioClient, private val props : MinIOProperties) {
