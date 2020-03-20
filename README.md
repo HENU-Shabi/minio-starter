@@ -1,5 +1,5 @@
 ****MinIO client springboot starter****
-
+[![](https://jitpack.io/v/HENU-Shabi/minio-starter.svg)](https://jitpack.io/#HENU-Shabi/minio-starter)
 using MinIO like a MutableMap to persist your object.
 
 ```kotlin
