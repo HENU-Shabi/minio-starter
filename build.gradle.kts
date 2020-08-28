@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "xyz.luchengeng"
-version = "3.0-SNAPSHOT"
+version = "3.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
