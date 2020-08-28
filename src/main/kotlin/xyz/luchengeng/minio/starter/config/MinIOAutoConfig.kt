@@ -32,4 +32,7 @@ class MinIOAutoConfig @Autowired constructor(val props : MinIOProperties){
             )
         )
     }
+
+    @Bean
+    fun client() = MinIOClient(rawClient,props)
 }
